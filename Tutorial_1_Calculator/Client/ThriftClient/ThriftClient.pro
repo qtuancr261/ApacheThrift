@@ -15,4 +15,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+    gen-cpp/MyService.cpp \
+    gen-cpp/thrift_file_constants.cpp \
+    gen-cpp/thrift_file_types.cpp \
+    myservice_client.cpp
+
+HEADERS += \
+    gen-cpp/MyService.h \
+    gen-cpp/thrift_file_constants.h \
+    gen-cpp/thrift_file_types.h
+PKGCONFIG += thrift
+CONFIG += link_pkgconfig
