@@ -1,0 +1,7 @@
+#include <iostream>
+#include <thrift/protocol/
+int main(int argc, char *argv[])
+{
+
+    return 0;
+}
