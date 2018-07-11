@@ -21,7 +21,8 @@ SOURCES += \
     gen-cpp/thrift_file_types.cpp
 CONFIG += link_pkgconfig
 PKGCONFIG += thrift
-
+PKGCONFIG += thrift-nb
+PKGCONFIG += libevent
 HEADERS += \
     gen-cpp/MyService.h \
     gen-cpp/thrift_file_constants.h \
