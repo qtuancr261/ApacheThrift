@@ -2,51 +2,35 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "MyService.h"
+#include <iostream>
+#include <memory>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/server/TSimpleServer.h>
-#include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-
+#include <thrift/transport/TSocket.h>
+#include <boost/shared_ptr.hpp>
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
-using namespace ::apache::thrift::server;
+using namespace ::ZTE;
+using std::cin;
+//using std::make_shared;
+//using boost::shared_ptr;
+using boost::shared_ptr;
+int main(int argc, char* argv[])
+{
+    for (int index{}; index < argc; ++index)
+        std::cout << argv[index] << std::endl;
+    // A Transport layer that uses a blocking socket, only one connection can be active at a time
+    shared_ptr<TSocket> socket(new TSocket("localhost", 9090));
+    // Others transports are often wrapped around in this one, it provides buffering of input and output data
+    shared_ptr<TTransport> transport(new TBufferedTransport(socket));
 
-using namespace  ::ZTE;
+    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
-class MyServiceHandler : virtual public MyServiceIf {
- public:
-  MyServiceHandler() {
-    // Your initialization goes here
-  }
-
-  int64_t send(const std::string& p1, const int32_t p2, const int64_t p3, const std::vector<int32_t> & p4, const std::vector<std::string> & p5, const std::map<std::string, int32_t> & p6) {
-    // Your implementation goes here
-    printf("send\n");
-  }
-
-  void receive(MyData& _return, const std::string& p1) {
-    // Your implementation goes here
-    printf("receive\n");
-  }
-
-  void getData(const std::string& p3) {
-    // Your implementation goes here
-    printf("getData\n");
-  }
-
-};
-
-int main(int argc, char **argv) {
-  int port = 9090;
-  ::apache::thrift::stdcxx::shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
-  ::apache::thrift::stdcxx::shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
-  ::apache::thrift::stdcxx::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  ::apache::thrift::stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  ::apache::thrift::stdcxx::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();
-  return 0;
+    MyServiceClient client(protocol);
+    transport->open();
+    client.getData("GTK");
+    cin.get();
+    transport->close();
+    return 0;
 }
-
