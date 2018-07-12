@@ -69,15 +69,15 @@ public:
 int main(int argc, char** argv)
 {
     int port = 9090;
-    shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
+    /*shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
     shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-    server.serve();
-    /*shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
+    server.serve();*/
+    shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
     shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
@@ -87,7 +87,7 @@ int main(int argc, char** argv)
     threadManager->threadFactory(threadFactory);
     threadManager->start();
     TNonblockingServer server(processor, protocolFactory, 8888, threadManager);
-    server.serve();*/
+    server.serve();
 
     return 0;
 }
