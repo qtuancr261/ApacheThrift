@@ -2,69 +2,92 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "MyService.h"
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/server/TSimpleServer.h>
-#include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TBufferTransports.h>
-#include <thrift/server/TNonblockingServer.h>
 #include <thrift/concurrency/PosixThreadFactory.h>
 #include <thrift/concurrency/ThreadManager.h>
-
+#include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/server/TNonblockingServer.h>
+#include <thrift/server/TSimpleServer.h>
+#include <thrift/transport/TBufferTransports.h>
+#include <thrift/transport/TServerSocket.h>
+#include <iostream>
+#include <map>
+#include <string>
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::concurrency;
 using boost::shared_ptr;
+using std::cout;
+using std::endl;
+using std::map;
+using std::string;
+using std::pair;
+using std::make_pair;
+using namespace ::ZTE;
 
-using namespace  ::ZTE;
+class MyServiceHandler : virtual public MyServiceIf
+{
+private:
+    map<string, MyData> receivedDataFromClients;
+public:
+    MyServiceHandler()
+    {
+        // Your initialization goes here
+    }
 
-class MyServiceHandler : virtual public MyServiceIf {
- public:
-  MyServiceHandler() {
-    // Your initialization goes here
-  }
+    int64_t send(const std::string& p1, const int32_t p2, const int64_t p3, const std::vector<int32_t>& p4, const std::vector<std::string>& p5, const std::map<std::string, int32_t>& p6)
+    {
+        // Your implementation goes here
+        cout << "a client sent data: ";
+        cout << p1 << " - " << p2 << " - " << p3 << " - " << p4.at(0) << endl;
+        MyData data{};
+        data.__set_p1(p1);
+        data.__set_p2(p2);
+        data.__set_p3(p3);
+        data.__set_p4(p4);
+        data.__set_p5(p5);
+        data.__set_p6(p6);
+        auto dataWithStr = make_pair(p1, data);
+        receivedDataFromClients.insert(dataWithStr);
+    }
 
-  int64_t send(const std::string& p1, const int32_t p2, const int64_t p3, const std::vector<int32_t> & p4, const std::vector<std::string> & p5, const std::map<std::string, int32_t> & p6) {
-    // Your implementation goes here
-    printf("send\n");
-  }
+    void receive(MyData& _return, const std::string& p1)
+    {
+        // Your implementation goes here
+        _return = receivedDataFromClients.at(p1);
+        printf("client has received\n");
+    }
 
-  void receive(MyData& _return, const std::string& p1) {
-    // Your implementation goes here
-    printf("receive\n");
-  }
-
-  void getData(const std::string& p3) {
-    // Your implementation goes here
-    printf("getData\n");
-  }
-
+    void getData(const std::string& p3)
+    {
+        // Your implementation goes here
+        printf("getData\n");
+    }
 };
 
-int main(int argc, char **argv) {
-  int port = 9090;
-  /*shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
-  shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+int main(int argc, char** argv)
+{
+    int port = 9090;
+    shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
+    shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();*/
-  shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
-  shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+    server.serve();
+    /*shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
+    shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-      // using thread pool with maximum 15 threads to handle incoming requests
-      shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(15);
-      shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
-      threadManager->threadFactory(threadFactory);
-      threadManager->start();
-      TNonblockingServer server(processor, protocolFactory, 8888, threadManager);
-      server.serve();
+    // using thread pool with maximum 15 threads to handle incoming requests
+    shared_ptr<ThreadManager> threadManager = ThreadManager::newSimpleThreadManager(15);
+    shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
+    threadManager->threadFactory(threadFactory);
+    threadManager->start();
+    TNonblockingServer server(processor, protocolFactory, 8888, threadManager);
+    server.serve();*/
 
-
-  return 0;
+    return 0;
 }
-
