@@ -65,9 +65,9 @@ int main(int argc, char* argv[])
     for (int index{}; index < argc; ++index)
         std::cout << argv[index] << std::endl;
     // A Transport layer that uses a blocking socket, only one connection can be active at a time
-    shared_ptr<TSocket> socket(new TSocket("localhost", 9090));
+    shared_ptr<TSocket> socket(new TSocket("localhost", 8888));
     // Others transports are often wrapped around in this one, it provides buffering of input and output data
-    shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+    shared_ptr<TTransport> transport(new TFramedTransport(socket));
 
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
