@@ -45,9 +45,9 @@ T random_int(T range)
     return rand() % range;
 }
 
-void generateMyData(MyData& preparedData)
+void generateMyData(MyData& preparedData, size_t p1Size)
 {
-    preparedData.__set_p1(random_string(5));
+    preparedData.__set_p1(random_string(p1Size));
     preparedData.__set_p2(random_int<int32_t>(100));
     preparedData.__set_p3(random_int<int64_t>(5000));
 
@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 {
     for (int index{}; index < argc; ++index)
         std::cout << argv[index] << std::endl;
+    size_t p1Size{static_cast<size_t>(atoi(argv[1]))};
     // A Transport layer that uses a blocking socket, only one connection can be active at a time
     shared_ptr<TSocket> socket(new TSocket("localhost", 8888));
     // Others transports are often wrapped around in this one, it provides buffering of input and output data
@@ -75,12 +76,12 @@ int main(int argc, char* argv[])
     transport->open();
     // Let's do it
     MyData data_1{};
-    generateMyData(data_1);
+    generateMyData(data_1, p1Size);
     string key{data_1.p1};
     client.send(data_1.p1, data_1.p2, data_1.p3, data_1.p4, data_1.p5, data_1.p6);
     cout << "Client has sent data with p1: " << data_1.p1 << " p2: " << data_1.p2 << " p3: "<< data_1.p3 <<  endl;
     // Generate data again and resend
-    generateMyData(data_1);
+    generateMyData(data_1, p1Size);
     client.send(data_1.p1, data_1.p2, data_1.p3, data_1.p4, data_1.p5, data_1.p6);
     cout << "Client has sent data with p1: " << data_1.p1 << " p2: " << data_1.p2 << " p3: "<< data_1.p3 <<  endl;
     // Receive data from p1
