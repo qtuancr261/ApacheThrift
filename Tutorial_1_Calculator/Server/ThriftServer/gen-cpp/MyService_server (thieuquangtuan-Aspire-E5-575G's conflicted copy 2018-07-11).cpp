@@ -6,7 +6,6 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include <thrift/server/TNonblockingServer.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -22,10 +21,8 @@ class MyServiceHandler : virtual public MyServiceIf {
   }
 
   int32_t ping() {
-      static int32_t countPing{};
     // Your implementation goes here
     printf("ping\n");
-    return ++countPing;
   }
 
 };

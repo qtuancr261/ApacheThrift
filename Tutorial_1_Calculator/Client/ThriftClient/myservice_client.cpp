@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
     MyServiceClient client(protocol);
     transport->open();
-    client.ping();
+    cout << client.ping();
     cout << "Let's ping the server" << endl;
     cin.get();
     transport->close();
