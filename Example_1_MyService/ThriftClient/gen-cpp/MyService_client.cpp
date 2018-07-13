@@ -11,6 +11,8 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TSocket.h>
+#include <Poco/ThreadPool.h>
+#include <Poco/Runnable.h>
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
@@ -21,10 +23,8 @@ using std::endl;
 using std::vector;
 using std::string;
 using std::map;
-//using std::make_shared;
-//using boost::shared_ptr;
 using boost::shared_ptr;
-// Random data
+// Random string
 string random_string(size_t length)
 {
     auto randchar = []() -> char {
@@ -38,7 +38,7 @@ string random_string(size_t length)
     std::generate_n(str.begin(), length, randchar);
     return str;
 }
-
+//Template for randoming int
 template <typename T>
 T random_int(T range)
 {
@@ -60,39 +60,53 @@ void generateMyData(MyData& preparedData, size_t p1Size)
     map<string, int32_t> preparedMap{{random_string(4), random_int<int32_t>(10)}, {random_string(4), random_int<int32_t>(10)}, {random_string(4), random_int<int32_t>(10)}};
     preparedData.__set_p6(preparedMap);
 }
+
+class MyServiceClientRunnable : public Poco::Runnable
+{
+public:
+    MyServiceClientRunnable() = default;
+    virtual void run() override
+    {
+        // A Transport layer that uses a blocking socket, only one connection can be active at a time
+        shared_ptr<TSocket> socket(new TSocket("localhost", 8888));
+        // Others transports are often wrapped around in this one, it provides buffering of input and output data
+        shared_ptr<TTransport> transport(new TFramedTransport(socket));
+
+        shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+        // Start
+        transport->open();
+        MyServiceClient client(protocol);
+        MyData data1;
+        generateMyData(data1, 4);
+        printf("send(%ld)\n",client.send(data1.p1, data1.p2, data1.p3, data1.p4, data1.p5, data1.p6));
+        MyData data2;
+        generateMyData(data2, 5);
+        printf("send(%ld)\n",client.send(data2.p1, data2.p2, data2.p3, data2.p4, data2.p5, data2.p6));
+
+        MyData recvData;
+        client.receive(recvData, data1.p1);
+        if (recvData == data1)
+            printf("matched send and receive data\n");
+        else
+            printf("mo matched\n");
+        transport->close();
+    }
+};
+
 int main(int argc, char* argv[])
 {
     for (int index{}; index < argc; ++index)
         std::cout << argv[index] << std::endl;
-    size_t p1Size{static_cast<size_t>(atoi(argv[1]))};
-    // A Transport layer that uses a blocking socket, only one connection can be active at a time
-    shared_ptr<TSocket> socket(new TSocket("localhost", 8888));
-    // Others transports are often wrapped around in this one, it provides buffering of input and output data
-    shared_ptr<TTransport> transport(new TFramedTransport(socket));
+    //size_t p1Size{static_cast<size_t>(atoi(argv[1]))};
 
-    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
-    MyServiceClient client(protocol);
-    transport->open();
-    // Let's do it
-    MyData data_1{};
-    generateMyData(data_1, p1Size);
-    string key{data_1.p1};
-    client.send(data_1.p1, data_1.p2, data_1.p3, data_1.p4, data_1.p5, data_1.p6);
-    cout << "Client has sent data with p1: " << data_1.p1 << " p2: " << data_1.p2 << " p3: "<< data_1.p3 <<  endl;
-    // Generate data again and resend
-    generateMyData(data_1, p1Size);
-    client.send(data_1.p1, data_1.p2, data_1.p3, data_1.p4, data_1.p5, data_1.p6);
-    cout << "Client has sent data with p1: " << data_1.p1 << " p2: " << data_1.p2 << " p3: "<< data_1.p3 <<  endl;
-    // Receive data from p1
-    client.receive(data_1, key);
-    cout << "Client received data with p1: " << data_1.p1 << " p2: " << data_1.p2 << " p3: "<< data_1.p3 <<  endl;
-    cout << "Press any key to exit!" << endl;
-    cin.get();
-    transport->close();
-    //MyData data1{}, data2{};
-    //createMyData(data1);
-    //createMyData(data2);
-    //cout << data1.p1 << " - " << data1.p2 << " - " << data1.p3 << endl;
+    MyServiceClientRunnable run12;
+    MyServiceClientRunnable run13;
+    MyServiceClientRunnable run14;
+    Poco::ThreadPool::defaultPool().start(run12);
+    Poco::ThreadPool::defaultPool().start(run13);
+    Poco::ThreadPool::defaultPool().start(run14);
+    Poco::ThreadPool::defaultPool().joinAll();
+
     return 0;
 }
