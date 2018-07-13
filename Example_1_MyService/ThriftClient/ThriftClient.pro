@@ -26,3 +26,4 @@ HEADERS += \
     gen-cpp/thrift_file_types.h
 CONFIG += link_pkgconfig
 PKGCONFIG += thrift
+PKGCONFIG += poco_foundation
