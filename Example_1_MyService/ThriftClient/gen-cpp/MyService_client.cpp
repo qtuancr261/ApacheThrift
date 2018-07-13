@@ -21,8 +21,6 @@ using std::endl;
 using std::vector;
 using std::string;
 using std::map;
-//using std::make_shared;
-//using boost::shared_ptr;
 using boost::shared_ptr;
 // Random data
 string random_string(size_t length)
@@ -89,9 +87,5 @@ int main(int argc, char* argv[])
     cout << "Press any key to exit!" << endl;
     cin.get();
     transport->close();
-    //MyData data1{}, data2{};
-    //createMyData(data1);
-    //createMyData(data2);
-    //cout << data1.p1 << " - " << data1.p2 << " - " << data1.p3 << endl;
     return 0;
 }
