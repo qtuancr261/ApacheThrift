@@ -219,7 +219,6 @@ DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/qt_config.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_post.prf \
-		../ThriftServer/.qmake.stash \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/toolchain.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/default_pre.prf \
@@ -416,7 +415,6 @@ Makefile: ../ThriftServer/ThriftServer.pro /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/qt_config.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/toolchain.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/default_pre.prf \
@@ -599,7 +597,6 @@ Makefile: ../ThriftServer/ThriftServer.pro /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/qt_config.prf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/toolchain.prf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/default_pre.prf:
