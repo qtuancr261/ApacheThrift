@@ -10,6 +10,7 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TServerSocket.h>
 #include <iostream>
+#include <exception>
 #include <map>
 #include <string>
 using namespace ::apache::thrift;
@@ -24,6 +25,7 @@ using std::map;
 using std::string;
 using std::pair;
 using std::make_pair;
+using std::exception;
 using namespace ::ZTE;
 
 class MyServiceHandler : virtual public MyServiceIf
@@ -39,8 +41,8 @@ public:
     int64_t send(const std::string& p1, const int32_t p2, const int64_t p3, const std::vector<int32_t>& p4, const std::vector<std::string>& p5, const std::map<std::string, int32_t>& p6)
     {
         // Your implementation goes here
-        cout << "a client sent data: ";
-        cout << p1 << " - " << p2 << " - " << p3 << " - " << p4.at(0) << endl;
+        static int64_t count{};
+        printf("A client sent: p1 %s - p2 %d - p3 %ld - p4vecSize %ld - p5vecSize %ld - p6mapSize %ld \n", p1.c_str(), p2, p3, p4.size(), p5.size(), p6.size());
         MyData data{};
         data.__set_p1(p1);
         data.__set_p2(p2);
@@ -48,15 +50,25 @@ public:
         data.__set_p4(p4);
         data.__set_p5(p5);
         data.__set_p6(p6);
+        // Save the data clent sent into a map
         auto dataWithStr = make_pair(p1, data);
         receivedDataFromClients.insert(dataWithStr);
+        return count++;
     }
 
     void receive(MyData& _return, const std::string& p1)
     {
         // Your implementation goes here
-        _return = receivedDataFromClients.at(p1);
-        printf("client has received\n");
+        _return = MyData{};
+        try
+        {
+          _return = receivedDataFromClients.at(p1);
+          printf("client has received\n");
+        } catch (const exception& excep)
+        {
+          printf("no matched: %s \n", excep.what());
+        }
+
     }
 
     void getData(const std::string& p3)
@@ -68,7 +80,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    int port = 9090;
+    int port = 8888;
     /*shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
     shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
@@ -86,7 +98,7 @@ int main(int argc, char** argv)
     shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
     threadManager->threadFactory(threadFactory);
     threadManager->start();
-    TNonblockingServer server(processor, protocolFactory, 8888, threadManager);
+    TNonblockingServer server(processor, protocolFactory, port, threadManager);
     server.serve();
 
     return 0;
