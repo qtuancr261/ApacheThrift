@@ -7,17 +7,27 @@ MyServerApplication::MyServerApplication()
       versionRequested{false},
       isServerHasBeenConfigured{false},
       serverPort{8888},
-      ptrFileChannel{new SimpleFileChannel()},
-      logger{[this]() -> Logger& { Logger::root().setChannel(ptrFileChannel);return Logger::get("TestLogger");}()}
+      ptrFileChannel{new FileChannel()},
+      ptrPatternFormatter{new PatternFormatter()},
+      ptrFormattingChannel{new FormattingChannel(ptrPatternFormatter, ptrFileChannel)},
+      logger{[this]() -> Logger& { Logger::root().setChannel(ptrFormattingChannel);return Logger::get("TestLogger");}()}
 {
+
     ptrFileChannel->setProperty("path", "server.log");
-    ptrFileChannel->setProperty("rotation", "10 K");
-    logger.information("Start Server Application");
+    ptrFileChannel->setProperty("rotation", "10240 M");
+    ptrFileChannel->setProperty("archive", "number");
+    ptrFileChannel->setProperty("purgeCount", "9");
+    ptrFileChannel->setProperty("times", "utc");
+    ptrPatternFormatter->setProperty("pattern", "%Y-%m-%d %H:%M:%S %s: %t");
+    //for (int timeT{}; timeT < 100000; timeT++)
+
     readConfigurationForServer();
+    logger.information("Finished Configuring Server Application");
 }
 
 void MyServerApplication::initialize(Poco::Util::Application &self)
 {
+    logger.information("Initializing Server Application");
     config().setString("optionval", "defaultoption");
     // loaf the default configuration files
     loadConfiguration();
@@ -27,6 +37,7 @@ void MyServerApplication::initialize(Poco::Util::Application &self)
 void MyServerApplication::uninitialize()
 {
     // Call the base class method :3
+    logger.information("Uninitializing Server Application");
     Application::uninitialize();
 }
 
@@ -112,11 +123,13 @@ void MyServerApplication::handeRunServerService(const std::string &name, const s
     if (value == "1")
     {
         cout << "TSimpleServer" << endl;
+        logger.information("Start running TSimpleServer");
         runTSimpleServerService();
     }
     else if (value =="2")
     {
         cout << "TNonblockingServer" << endl;
+        logger.information("Start running TNonblockingServer");
         runTNonblockingServerService();
     }
 }

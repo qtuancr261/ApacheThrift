@@ -8,7 +8,10 @@
 #include <Poco/Util/IniFileConfiguration.h>
 #include <Poco/Logger.h>
 #include <Poco/SimpleFileChannel.h>
+#include <Poco/FileChannel.h>
 #include <Poco/AutoPtr.h>
+#include <Poco/PatternFormatter.h>
+#include <Poco/FormattingChannel.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -23,7 +26,9 @@ using Poco::Util::HelpFormatter;
 using Poco::AutoPtr;
 using Poco::Util::IniFileConfiguration;
 using Poco::Logger;
-using Poco::SimpleFileChannel;
+using Poco::FileChannel;
+using Poco::PatternFormatter;
+using Poco::FormattingChannel;
 using std::cout;
 using std::string;
 using std::vector;
@@ -36,7 +41,9 @@ private:
     bool versionRequested;
     bool isServerHasBeenConfigured;
     int serverPort;
-    AutoPtr<SimpleFileChannel> ptrFileChannel;
+    AutoPtr<FileChannel> ptrFileChannel;
+    AutoPtr<PatternFormatter> ptrPatternFormatter;
+    AutoPtr<FormattingChannel> ptrFormattingChannel;
     Logger& logger;
 public:
     MyServerApplication();
