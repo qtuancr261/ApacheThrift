@@ -1,9 +1,19 @@
 #include "myserverapplication.h"
 
 MyServerApplication::MyServerApplication()
-    : ServerApplication(), helpRequested{false}, startServerRequested{false}, versionRequested{false}
+    : ServerApplication(),
+      helpRequested{false},
+      startServerRequested{false},
+      versionRequested{false},
+      isServerHasBeenConfigured{false},
+      serverPort{8888},
+      ptrFileChannel{new SimpleFileChannel()},
+      logger{[this]() -> Logger& { Logger::root().setChannel(ptrFileChannel);return Logger::get("TestLogger");}()}
 {
-
+    ptrFileChannel->setProperty("path", "server.log");
+    ptrFileChannel->setProperty("rotation", "10 K");
+    logger.information("Start Server Application");
+    readConfigurationForServer();
 }
 
 void MyServerApplication::initialize(Poco::Util::Application &self)
@@ -34,7 +44,7 @@ void MyServerApplication::defineOptions(Poco::Util::OptionSet &optionSet)
                         .repeatable(false)
                         .callback(OptionCallback<MyServerApplication>(this, &MyServerApplication::handleDisplayVersion)));
     optionSet.addOption(Option("type", "t", "Choose Thrift Server type")
-                        .required(false)
+                        .required(true)
                         .repeatable(false)
                         .argument("type")
                         .callback(OptionCallback<MyServerApplication>(this, &MyServerApplication::handeRunServerService)));
@@ -72,13 +82,11 @@ void MyServerApplication::handleDisplayVersion(const std::string &name, const st
 void MyServerApplication::runTSimpleServerService()
 {
     //cout << "Running" << endl;
-    int port = 8888;
     shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
     shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
-    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(serverPort));
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-    printf("Running TSimpleServer on port %d", port);
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
 
     server.serve();
@@ -86,7 +94,6 @@ void MyServerApplication::runTSimpleServerService()
 
 void MyServerApplication::runTNonblockingServerService()
 {
-    int port = 8888;
     shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
     shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
@@ -96,7 +103,7 @@ void MyServerApplication::runTNonblockingServerService()
     shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
     threadManager->threadFactory(threadFactory);
     threadManager->start();
-    TNonblockingServer server(processor, protocolFactory, port, threadManager);
+    TNonblockingServer server(processor, protocolFactory, serverPort, threadManager);
     server.serve();
 }
 
@@ -112,6 +119,16 @@ void MyServerApplication::handeRunServerService(const std::string &name, const s
         cout << "TNonblockingServer" << endl;
         runTNonblockingServerService();
     }
+}
+
+bool MyServerApplication::readConfigurationForServer()
+{
+    cout << "Reading configuration from file ThriftServer.ini" << endl;
+    AutoPtr<IniFileConfiguration> ptrConfiFile{new IniFileConfiguration("ThriftServer.ini")};
+    string serverPortStr{ptrConfiFile->getString("port")};
+    serverPort = std::atoi(serverPortStr.c_str());
+    logger.information("Reading configuration and set port to: " + serverPortStr);
+    return true;
 }
 
 int MyServerApplication::main(const vector<std::string> &args)
