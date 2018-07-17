@@ -17,8 +17,10 @@ MyServerApplication::MyServerApplication()
     ptrFileChannel->setProperty("rotation", "10240 M");
     ptrFileChannel->setProperty("archive", "number");
     ptrFileChannel->setProperty("purgeCount", "9");
-    ptrFileChannel->setProperty("times", "utc");
+    ptrFileChannel->setProperty("times", "local");
+
     ptrPatternFormatter->setProperty("pattern", "%Y-%m-%d %H:%M:%S %s: %t");
+    ptrPatternFormatter->setProperty("times", "local");
     //for (int timeT{}; timeT < 100000; timeT++)
 
     readConfigurationForServer();
@@ -76,6 +78,7 @@ void MyServerApplication::handleHelp(const std::string &name, const std::string 
     helpRequested = true;
     displayHelpInformation();
     stopOptionsProcessing();
+    terminate();
 }
 
 void MyServerApplication::displayVersionInformation()
@@ -88,6 +91,7 @@ void MyServerApplication::handleDisplayVersion(const std::string &name, const st
     versionRequested = true;
     displayVersionInformation();
     stopOptionsProcessing();
+    terminate();
 }
 
 void MyServerApplication::runTSimpleServerService()
