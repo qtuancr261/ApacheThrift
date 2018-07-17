@@ -1,9 +1,0 @@
-2018-07-16 19:12:50 TestLogger: Reading configuration and set port to: 9090
-2018-07-16 19:12:50 TestLogger: Finished Configuring Server Application
-2018-07-16 19:12:50 TestLogger: Run TNonblockingServer
-2018-07-16 19:13:22 TestLogger: Reading configuration and set port to: 9090
-2018-07-16 19:13:22 TestLogger: Finished Configuring Server Application
-2018-07-16 19:13:22 TestLogger: Run TNonblockingServer
-2018-07-16 19:18:54 TestLogger: Reading configuration and set port to: 9090
-2018-07-16 19:18:54 TestLogger: Finished Configuring Server Application
-2018-07-16 19:18:54 TestLogger: Start running TNonblockingServer

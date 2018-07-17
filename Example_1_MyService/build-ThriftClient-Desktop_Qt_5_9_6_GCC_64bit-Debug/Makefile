@@ -38,7 +38,7 @@ DISTNAME      = ThriftClient1.0.0
 DISTDIR = /home/tuantq3/Dropbox/QProjects/Console/ApacheThrift/Example_1_MyService/build-ThriftClient-Desktop_Qt_5_9_6_GCC_64bit-Debug/.tmp/ThriftClient1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/tuantq3/Qt/5.9.6/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/usr/local/lib -lthrift -lPocoFoundation -L/home/tuantq3/Qt/5.9.6/gcc_64/lib -lQt5Core -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/local/lib -lthrift -lPocoFoundation -lPocoUtil -L/home/tuantq3/Qt/5.9.6/gcc_64/lib -lQt5Core -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -53,11 +53,15 @@ OBJECTS_DIR   = ./
 SOURCES       = ../ThriftClient/gen-cpp/MyService.cpp \
 		../ThriftClient/gen-cpp/MyService_client.cpp \
 		../ThriftClient/gen-cpp/thrift_file_constants.cpp \
-		../ThriftClient/gen-cpp/thrift_file_types.cpp 
+		../ThriftClient/gen-cpp/thrift_file_types.cpp \
+		../ThriftClient/gen-cpp/myclientapplication.cpp \
+		../ThriftClient/gen-cpp/myserviceclientrunnable.cpp 
 OBJECTS       = MyService.o \
 		MyService_client.o \
 		thrift_file_constants.o \
-		thrift_file_types.o
+		thrift_file_types.o \
+		myclientapplication.o \
+		myserviceclientrunnable.o
 DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/common/unix.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/common/linux.conf \
@@ -219,6 +223,7 @@ DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/qt_config.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_post.prf \
+		../ThriftClient/.qmake.stash \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/toolchain.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/default_pre.prf \
@@ -239,10 +244,14 @@ DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/lex.prf \
 		../ThriftClient/ThriftClient.pro ../ThriftClient/gen-cpp/MyService.h \
 		../ThriftClient/gen-cpp/thrift_file_constants.h \
-		../ThriftClient/gen-cpp/thrift_file_types.h ../ThriftClient/gen-cpp/MyService.cpp \
+		../ThriftClient/gen-cpp/thrift_file_types.h \
+		../ThriftClient/gen-cpp/myclientapplication.h \
+		../ThriftClient/gen-cpp/myserviceclientrunnable.h ../ThriftClient/gen-cpp/MyService.cpp \
 		../ThriftClient/gen-cpp/MyService_client.cpp \
 		../ThriftClient/gen-cpp/thrift_file_constants.cpp \
-		../ThriftClient/gen-cpp/thrift_file_types.cpp
+		../ThriftClient/gen-cpp/thrift_file_types.cpp \
+		../ThriftClient/gen-cpp/myclientapplication.cpp \
+		../ThriftClient/gen-cpp/myserviceclientrunnable.cpp
 QMAKE_TARGET  = ThriftClient
 DESTDIR       = 
 TARGET        = ThriftClient
@@ -415,6 +424,7 @@ Makefile: ../ThriftClient/ThriftClient.pro /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/qt_config.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/toolchain.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/default_pre.prf \
@@ -597,6 +607,7 @@ Makefile: ../ThriftClient/ThriftClient.pro /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/qt_config.prf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/toolchain.prf:
 /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/default_pre.prf:
@@ -632,8 +643,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.h ../ThriftClient/gen-cpp/thrift_file_constants.h ../ThriftClient/gen-cpp/thrift_file_types.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.cpp ../ThriftClient/gen-cpp/MyService_client.cpp ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../ThriftClient/gen-cpp/thrift_file_types.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.h ../ThriftClient/gen-cpp/thrift_file_constants.h ../ThriftClient/gen-cpp/thrift_file_types.h ../ThriftClient/gen-cpp/myclientapplication.h ../ThriftClient/gen-cpp/myserviceclientrunnable.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.cpp ../ThriftClient/gen-cpp/MyService_client.cpp ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../ThriftClient/gen-cpp/thrift_file_types.cpp ../ThriftClient/gen-cpp/myclientapplication.cpp ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -684,7 +695,9 @@ MyService.o: ../ThriftClient/gen-cpp/MyService.cpp ../ThriftClient/gen-cpp/MySer
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MyService.o ../ThriftClient/gen-cpp/MyService.cpp
 
 MyService_client.o: ../ThriftClient/gen-cpp/MyService_client.cpp ../ThriftClient/gen-cpp/MyService.h \
-		../ThriftClient/gen-cpp/thrift_file_types.h
+		../ThriftClient/gen-cpp/thrift_file_types.h \
+		../ThriftClient/gen-cpp/myclientapplication.h \
+		../ThriftClient/gen-cpp/myserviceclientrunnable.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MyService_client.o ../ThriftClient/gen-cpp/MyService_client.cpp
 
 thrift_file_constants.o: ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../ThriftClient/gen-cpp/thrift_file_constants.h \
@@ -693,6 +706,17 @@ thrift_file_constants.o: ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../Th
 
 thrift_file_types.o: ../ThriftClient/gen-cpp/thrift_file_types.cpp ../ThriftClient/gen-cpp/thrift_file_types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o thrift_file_types.o ../ThriftClient/gen-cpp/thrift_file_types.cpp
+
+myclientapplication.o: ../ThriftClient/gen-cpp/myclientapplication.cpp ../ThriftClient/gen-cpp/myclientapplication.h \
+		../ThriftClient/gen-cpp/myserviceclientrunnable.h \
+		../ThriftClient/gen-cpp/MyService.h \
+		../ThriftClient/gen-cpp/thrift_file_types.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myclientapplication.o ../ThriftClient/gen-cpp/myclientapplication.cpp
+
+myserviceclientrunnable.o: ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp ../ThriftClient/gen-cpp/myserviceclientrunnable.h \
+		../ThriftClient/gen-cpp/MyService.h \
+		../ThriftClient/gen-cpp/thrift_file_types.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myserviceclientrunnable.o ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp
 
 ####### Install
 

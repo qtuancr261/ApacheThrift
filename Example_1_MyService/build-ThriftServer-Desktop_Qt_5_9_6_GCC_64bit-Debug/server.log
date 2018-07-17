@@ -1,4 +1,25 @@
-Start Server Application
-Reading configuration and set port to: 9090
-Start Server Application
-Reading configuration and set port to: 9090
+2018-07-17 01:52:34 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 01:52:34 TestLogger: Finished Configuring Server Application
+2018-07-17 01:52:34 TestLogger: Start running TNonblockingServer
+2018-07-17 01:54:08 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 01:54:08 TestLogger: Finished Configuring Server Application
+2018-07-17 01:54:08 TestLogger: Start running TNonblockingServer
+2018-07-17 01:55:26 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 01:55:26 TestLogger: Finished Configuring Server Application
+2018-07-17 01:55:26 TestLogger: Start running TNonblockingServer
+2018-07-17 08:57:33 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 08:57:33 TestLogger: Finished Configuring Server Application
+2018-07-17 08:57:33 TestLogger: Start running TNonblockingServer
+2018-07-17 09:01:16 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 09:01:16 TestLogger: Finished Configuring Server Application
+2018-07-17 09:01:16 TestLogger: Start running TNonblockingServer
+2018-07-17 09:57:04 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 09:57:04 TestLogger: Finished Configuring Server Application
+2018-07-17 09:57:04 TestLogger: Start running TNonblockingServer
+2018-07-17 10:06:35 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 10:06:35 TestLogger: Finished Configuring Server Application
+2018-07-17 10:06:35 TestLogger: Start running TSimpleServer
+2018-07-17 14:31:49 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 14:31:49 TestLogger: Finished Configuring Server Application
+2018-07-17 14:32:00 TestLogger: Reading configuration and set port to: 9090
+2018-07-17 14:32:00 TestLogger: Finished Configuring Server Application
