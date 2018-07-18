@@ -51,17 +51,17 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../ThriftClient/gen-cpp/MyService.cpp \
-		../ThriftClient/gen-cpp/MyService_client.cpp \
 		../ThriftClient/gen-cpp/thrift_file_constants.cpp \
 		../ThriftClient/gen-cpp/thrift_file_types.cpp \
 		../ThriftClient/gen-cpp/myclientapplication.cpp \
-		../ThriftClient/gen-cpp/myserviceclientrunnable.cpp 
+		../ThriftClient/gen-cpp/myserviceclientrunnable.cpp \
+		../ThriftClient/gen-cpp/main.cpp 
 OBJECTS       = MyService.o \
-		MyService_client.o \
 		thrift_file_constants.o \
 		thrift_file_types.o \
 		myclientapplication.o \
-		myserviceclientrunnable.o
+		myserviceclientrunnable.o \
+		main.o
 DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/common/unix.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/common/linux.conf \
@@ -247,11 +247,11 @@ DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		../ThriftClient/gen-cpp/thrift_file_types.h \
 		../ThriftClient/gen-cpp/myclientapplication.h \
 		../ThriftClient/gen-cpp/myserviceclientrunnable.h ../ThriftClient/gen-cpp/MyService.cpp \
-		../ThriftClient/gen-cpp/MyService_client.cpp \
 		../ThriftClient/gen-cpp/thrift_file_constants.cpp \
 		../ThriftClient/gen-cpp/thrift_file_types.cpp \
 		../ThriftClient/gen-cpp/myclientapplication.cpp \
-		../ThriftClient/gen-cpp/myserviceclientrunnable.cpp
+		../ThriftClient/gen-cpp/myserviceclientrunnable.cpp \
+		../ThriftClient/gen-cpp/main.cpp
 QMAKE_TARGET  = ThriftClient
 DESTDIR       = 
 TARGET        = ThriftClient
@@ -644,7 +644,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.h ../ThriftClient/gen-cpp/thrift_file_constants.h ../ThriftClient/gen-cpp/thrift_file_types.h ../ThriftClient/gen-cpp/myclientapplication.h ../ThriftClient/gen-cpp/myserviceclientrunnable.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.cpp ../ThriftClient/gen-cpp/MyService_client.cpp ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../ThriftClient/gen-cpp/thrift_file_types.cpp ../ThriftClient/gen-cpp/myclientapplication.cpp ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ThriftClient/gen-cpp/MyService.cpp ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../ThriftClient/gen-cpp/thrift_file_types.cpp ../ThriftClient/gen-cpp/myclientapplication.cpp ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp ../ThriftClient/gen-cpp/main.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -694,12 +694,6 @@ MyService.o: ../ThriftClient/gen-cpp/MyService.cpp ../ThriftClient/gen-cpp/MySer
 		../ThriftClient/gen-cpp/thrift_file_types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MyService.o ../ThriftClient/gen-cpp/MyService.cpp
 
-MyService_client.o: ../ThriftClient/gen-cpp/MyService_client.cpp ../ThriftClient/gen-cpp/MyService.h \
-		../ThriftClient/gen-cpp/thrift_file_types.h \
-		../ThriftClient/gen-cpp/myclientapplication.h \
-		../ThriftClient/gen-cpp/myserviceclientrunnable.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MyService_client.o ../ThriftClient/gen-cpp/MyService_client.cpp
-
 thrift_file_constants.o: ../ThriftClient/gen-cpp/thrift_file_constants.cpp ../ThriftClient/gen-cpp/thrift_file_constants.h \
 		../ThriftClient/gen-cpp/thrift_file_types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o thrift_file_constants.o ../ThriftClient/gen-cpp/thrift_file_constants.cpp
@@ -717,6 +711,12 @@ myserviceclientrunnable.o: ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp .
 		../ThriftClient/gen-cpp/MyService.h \
 		../ThriftClient/gen-cpp/thrift_file_types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myserviceclientrunnable.o ../ThriftClient/gen-cpp/myserviceclientrunnable.cpp
+
+main.o: ../ThriftClient/gen-cpp/main.cpp ../ThriftClient/gen-cpp/MyService.h \
+		../ThriftClient/gen-cpp/thrift_file_types.h \
+		../ThriftClient/gen-cpp/myclientapplication.h \
+		../ThriftClient/gen-cpp/myserviceclientrunnable.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ThriftClient/gen-cpp/main.cpp
 
 ####### Install
 

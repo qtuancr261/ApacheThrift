@@ -8,3 +8,5 @@
 2018-07-17 10:06:40 TestLogger: Start running single thread client
 2018-07-17 10:06:40 TestLogger: Initializing Client Application
 2018-07-17 10:07:14 TestLogger: Uninitializing Server Application
+2018-07-18 09:44:43 TestLogger: Reading configuration and set port for client to connect to: 9090
+2018-07-18 09:44:43 TestLogger: Finished Configuring Client Application
