@@ -75,6 +75,7 @@ void MyClientApplication::handleHelp(const std::string& name, const std::string&
     helpRequested = true;
     displayHelpInformation();
     stopOptionsProcessing();
+    terminate();
 }
 
 void MyClientApplication::displayVersionInformation()
@@ -87,6 +88,7 @@ void MyClientApplication::handleDisplayVersion(const std::string& name, const st
     versionRequested = true;
     displayVersionInformation();
     stopOptionsProcessing();
+    terminate();
 }
 
 void MyClientApplication::runSingleThreadClient()
