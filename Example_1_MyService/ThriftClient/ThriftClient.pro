@@ -16,13 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     gen-cpp/MyService.cpp \
-    gen-cpp/MyService_client.cpp \
     gen-cpp/thrift_file_constants.cpp \
-    gen-cpp/thrift_file_types.cpp
+    gen-cpp/thrift_file_types.cpp \
+    gen-cpp/myclientapplication.cpp \
+    gen-cpp/myserviceclientrunnable.cpp \
+    gen-cpp/main.cpp
 
 HEADERS += \
     gen-cpp/MyService.h \
     gen-cpp/thrift_file_constants.h \
-    gen-cpp/thrift_file_types.h
+    gen-cpp/thrift_file_types.h \
+    gen-cpp/myclientapplication.h \
+    gen-cpp/myserviceclientrunnable.h
 CONFIG += link_pkgconfig
 PKGCONFIG += thrift
+PKGCONFIG += poco_foundation
+PKGCONFIG += poco_util
