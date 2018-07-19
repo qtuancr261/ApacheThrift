@@ -23,3 +23,17 @@
 2018-07-17 14:31:49 TestLogger: Finished Configuring Server Application
 2018-07-17 14:32:00 TestLogger: Reading configuration and set port to: 9090
 2018-07-17 14:32:00 TestLogger: Finished Configuring Server Application
+2018-07-19 09:13:00 TestLogger: Reading configuration and set port to: 9090
+2018-07-19 09:13:00 TestLogger: Finished Configuring Server Application
+2018-07-19 09:13:14 TestLogger: Reading configuration and set port to: 9090
+2018-07-19 09:13:14 TestLogger: Finished Configuring Server Application
+2018-07-19 09:13:14 TestLogger: Start running TSimpleServer
+2018-07-19 14:17:15 logger: Reading configuration and set port to: 9090
+2018-07-19 14:17:15 logger: Finished Configuring Server Application
+2018-07-19 14:17:15 logger: Start running TThreadedServer - per-connection state
+2018-07-19 15:01:14 logger: Reading configuration and set port to: 9090
+2018-07-19 15:01:14 logger: Finished Configuring Server Application
+2018-07-19 15:01:14 logger: Start running TThreadedServer - per-connection state
+2018-07-19 15:43:44 logger: Reading configuration and set port to: 9090
+2018-07-19 15:43:44 logger: Finished Configuring Server Application
+2018-07-19 15:43:44 logger: Start running TThreadPoolServer

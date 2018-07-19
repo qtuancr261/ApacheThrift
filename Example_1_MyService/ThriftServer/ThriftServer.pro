@@ -20,12 +20,12 @@ SOURCES += \
     gen-cpp/thrift_file_types.cpp \
     gen-cpp/myserverapplication.cpp \
     gen-cpp/myservicehandler.cpp \
-    gen-cpp/main.cpp
+    gen-cpp/main.cpp \
+    gen-cpp/myserviceclonefactory.cpp
 CONFIG += link_pkgconfig
 PKGCONFIG += thrift
 PKGCONFIG += thrift-nb
 PKGCONFIG += libevent
-#PKGCONFIG += event
 PKGCONFIG += poco_util
 PKGCONFIG += poco_foundation
 HEADERS += \
@@ -33,4 +33,5 @@ HEADERS += \
     gen-cpp/thrift_file_constants.h \
     gen-cpp/thrift_file_types.h \
     gen-cpp/myserverapplication.h \
-    gen-cpp/myservicehandler.h
+    gen-cpp/myservicehandler.h \
+    gen-cpp/myserviceclonefactory.h

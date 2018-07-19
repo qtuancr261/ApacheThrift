@@ -55,13 +55,15 @@ SOURCES       = ../ThriftServer/gen-cpp/MyService.cpp \
 		../ThriftServer/gen-cpp/thrift_file_types.cpp \
 		../ThriftServer/gen-cpp/myserverapplication.cpp \
 		../ThriftServer/gen-cpp/myservicehandler.cpp \
-		../ThriftServer/gen-cpp/main.cpp 
+		../ThriftServer/gen-cpp/main.cpp \
+		../ThriftServer/gen-cpp/myserviceclonefactory.cpp 
 OBJECTS       = MyService.o \
 		thrift_file_constants.o \
 		thrift_file_types.o \
 		myserverapplication.o \
 		myservicehandler.o \
-		main.o
+		main.o \
+		myserviceclonefactory.o
 DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/common/unix.conf \
 		/home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/common/linux.conf \
@@ -246,12 +248,14 @@ DIST          = /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/spec_pre.prf \
 		../ThriftServer/gen-cpp/thrift_file_constants.h \
 		../ThriftServer/gen-cpp/thrift_file_types.h \
 		../ThriftServer/gen-cpp/myserverapplication.h \
-		../ThriftServer/gen-cpp/myservicehandler.h ../ThriftServer/gen-cpp/MyService.cpp \
+		../ThriftServer/gen-cpp/myservicehandler.h \
+		../ThriftServer/gen-cpp/myserviceclonefactory.h ../ThriftServer/gen-cpp/MyService.cpp \
 		../ThriftServer/gen-cpp/thrift_file_constants.cpp \
 		../ThriftServer/gen-cpp/thrift_file_types.cpp \
 		../ThriftServer/gen-cpp/myserverapplication.cpp \
 		../ThriftServer/gen-cpp/myservicehandler.cpp \
-		../ThriftServer/gen-cpp/main.cpp
+		../ThriftServer/gen-cpp/main.cpp \
+		../ThriftServer/gen-cpp/myserviceclonefactory.cpp
 QMAKE_TARGET  = ThriftServer
 DESTDIR       = 
 TARGET        = ThriftServer
@@ -643,8 +647,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/tuantq3/Qt/5.9.6/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../ThriftServer/gen-cpp/MyService.h ../ThriftServer/gen-cpp/thrift_file_constants.h ../ThriftServer/gen-cpp/thrift_file_types.h ../ThriftServer/gen-cpp/myserverapplication.h ../ThriftServer/gen-cpp/myservicehandler.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ThriftServer/gen-cpp/MyService.cpp ../ThriftServer/gen-cpp/thrift_file_constants.cpp ../ThriftServer/gen-cpp/thrift_file_types.cpp ../ThriftServer/gen-cpp/myserverapplication.cpp ../ThriftServer/gen-cpp/myservicehandler.cpp ../ThriftServer/gen-cpp/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ThriftServer/gen-cpp/MyService.h ../ThriftServer/gen-cpp/thrift_file_constants.h ../ThriftServer/gen-cpp/thrift_file_types.h ../ThriftServer/gen-cpp/myserverapplication.h ../ThriftServer/gen-cpp/myservicehandler.h ../ThriftServer/gen-cpp/myserviceclonefactory.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../ThriftServer/gen-cpp/MyService.cpp ../ThriftServer/gen-cpp/thrift_file_constants.cpp ../ThriftServer/gen-cpp/thrift_file_types.cpp ../ThriftServer/gen-cpp/myserverapplication.cpp ../ThriftServer/gen-cpp/myservicehandler.cpp ../ThriftServer/gen-cpp/main.cpp ../ThriftServer/gen-cpp/myserviceclonefactory.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -718,6 +722,13 @@ main.o: ../ThriftServer/gen-cpp/main.cpp ../ThriftServer/gen-cpp/myserverapplica
 		../ThriftServer/gen-cpp/MyService.h \
 		../ThriftServer/gen-cpp/thrift_file_types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ThriftServer/gen-cpp/main.cpp
+
+myserviceclonefactory.o: ../ThriftServer/gen-cpp/myserviceclonefactory.cpp ../ThriftServer/gen-cpp/myserviceclonefactory.h \
+		../ThriftServer/gen-cpp/MyService.h \
+		../ThriftServer/gen-cpp/thrift_file_types.h \
+		../ThriftServer/gen-cpp/myservicehandler.h \
+		../ThriftServer/gen-cpp/myserverapplication.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myserviceclonefactory.o ../ThriftServer/gen-cpp/myserviceclonefactory.cpp
 
 ####### Install
 
