@@ -11,11 +11,11 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TServerSocket.h>
 #include <Poco/Util/ServerApplication.h>
+#include <thrift/server/TThreadedServer.h>
 #include <iostream>
 #include <exception>
 #include <map>
 #include <string>
-#include "myserverapplication.h"
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
