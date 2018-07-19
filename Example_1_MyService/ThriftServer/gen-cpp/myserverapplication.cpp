@@ -10,7 +10,7 @@ MyServerApplication::MyServerApplication()
       ptrFileChannel{new FileChannel()},
       ptrPatternFormatter{new PatternFormatter()},
       ptrFormattingChannel{new FormattingChannel(ptrPatternFormatter, ptrFileChannel)},
-      logger{[this]() -> Logger& { Logger::root().setChannel(ptrFormattingChannel);return Logger::get("TestLogger");}()}
+      logger{[this]() -> Logger& { Logger::root().setChannel(ptrFormattingChannel);return Logger::get("logger");}()}
 {
 
     ptrFileChannel->setProperty("path", "server.log");
@@ -56,7 +56,7 @@ void MyServerApplication::defineOptions(Poco::Util::OptionSet &optionSet)
                         .required(false)
                         .repeatable(false)
                         .callback(OptionCallback<MyServerApplication>(this, &MyServerApplication::handleDisplayVersion)));
-    optionSet.addOption(Option("type", "t", "Choose Thrift Server type")
+    optionSet.addOption(Option("type", "t", "Choose Thrift Server type\n1. TSimpleServer\n2. TNonblockingServer")
                         .required(true)
                         .repeatable(false)
                         .argument("type")
@@ -94,14 +94,16 @@ void MyServerApplication::handleDisplayVersion(const std::string &name, const st
     terminate();
 }
 
+
 void MyServerApplication::runTSimpleServerService()
 {
-    //cout << "Running" << endl;
+    // This server allows one connection at a time
     shared_ptr<MyServiceHandler> handler(new MyServiceHandler());
     shared_ptr<TProcessor> processor(new MyServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(serverPort));
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    // This server allows one connection at a time
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
 
     server.serve();
@@ -118,7 +120,43 @@ void MyServerApplication::runTNonblockingServerService()
     shared_ptr<PosixThreadFactory> threadFactory = shared_ptr<PosixThreadFactory>(new PosixThreadFactory());
     threadManager->threadFactory(threadFactory);
     threadManager->start();
+    // MultiThreaded, non-blocking IO server
     TNonblockingServer server(processor, protocolFactory, serverPort, threadManager);
+    server.serve();
+}
+
+void MyServerApplication::runTThreadedServerService()
+{
+    // A multithreaded blocking IO server that uses much more resource than TNonblockingServer
+    TThreadedServer server(make_shared<MyServiceProcessorFactory>(make_shared<MyServiceCloneFactory>()),
+                           make_shared<TServerSocket>(serverPort),
+                           make_shared<TBufferedTransportFactory>(),
+                           make_shared<TBinaryProtocolFactory>());
+    server.serve();
+}
+
+void MyServerApplication::runTThreadedServerService_noNeedPerConnectionState()
+{
+    TThreadedServer server(make_shared<MyServiceProcessor>(make_shared<MyServiceHandler>()),
+                           make_shared<TServerSocket>(serverPort),
+                           make_shared<TBufferedTransportFactory>(),
+                           make_shared<TBinaryProtocolFactory>());
+    server.serve();
+}
+
+void MyServerApplication::runTThreadedPoolServer()
+{
+    size_t clientCount{5};
+    shared_ptr<ThreadManager> threadManager{ThreadManager::newSimpleThreadManager(clientCount)};
+    threadManager->threadFactory(make_shared<PlatformThreadFactory>());
+    threadManager->start();
+
+    TThreadPoolServer server(make_shared<MyServiceProcessorFactory>(make_shared<MyServiceCloneFactory>()),
+                             make_shared<TServerSocket>(serverPort),
+                             make_shared<TBufferedTransportFactory>(),
+                             make_shared<TBinaryProtocolFactory>(),
+                             threadManager);
+
     server.serve();
 }
 
@@ -135,6 +173,25 @@ void MyServerApplication::handeRunServerService(const std::string &name, const s
         cout << "TNonblockingServer" << endl;
         logger.information("Start running TNonblockingServer");
         runTNonblockingServerService();
+    }
+    else if (value == "3")
+    {
+        cout << "TThreadedServer" << endl;
+        logger.information("Start running TThreadedServer - per-connection state");
+        runTThreadedServerService();
+
+    }
+    else if (value == "4")
+    {
+        cout << "TThreadedServer - no need per-connection state" << endl;
+        logger.information("Start running TThreadedServer");
+        runTThreadedServerService_noNeedPerConnectionState();
+    }
+    else if (value == "5")
+    {
+        cout << "TThreadPoolServer" << endl;
+        logger.information("Start running TThreadPoolServer");
+        runTThreadedPoolServer();
     }
 }
 

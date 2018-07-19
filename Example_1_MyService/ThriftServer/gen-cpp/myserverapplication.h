@@ -12,10 +12,14 @@
 #include <Poco/AutoPtr.h>
 #include <Poco/PatternFormatter.h>
 #include <Poco/FormattingChannel.h>
+#include <thrift/server/TThreadedServer.h>
+#include <thrift/server/TThreadPoolServer.h>
+#include <boost/make_shared.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
 #include "myservicehandler.h"
+#include "myserviceclonefactory.h"
 
 using Poco::Util::Application;
 using Poco::Util::ServerApplication;
@@ -29,6 +33,8 @@ using Poco::Logger;
 using Poco::FileChannel;
 using Poco::PatternFormatter;
 using Poco::FormattingChannel;
+using ::apache::thrift::server::TThreadedServer;
+using boost::make_shared;
 using std::cout;
 using std::string;
 using std::vector;
@@ -59,6 +65,9 @@ public:
 
     void runTSimpleServerService();
     void runTNonblockingServerService();
+    void runTThreadedServerService();
+    void runTThreadedServerService_noNeedPerConnectionState();
+    void runTThreadedPoolServer();
     void handeRunServerService(const string&name , const string& value);
 
     bool readConfigurationForServer();
