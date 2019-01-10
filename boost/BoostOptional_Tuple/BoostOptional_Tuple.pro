@@ -16,7 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp
-
+LIBS += -L/usr/lib/x86_64-linux-gnu/ -lboost_thread
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
