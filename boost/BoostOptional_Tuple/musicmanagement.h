@@ -13,6 +13,16 @@ private:
 public:
     MusicManagement();
     opt_string findLastDataOfEvent(const std::string& eventName) const;
+
+    template <typename T>
+    boost::optional<typename T::mapped_type> findLastDataOfEvent(const T& collection, const typename T::key_type& eventName) const
+    {
+        typename T::const_iterator iter = collection.find(eventName);
+        if (iter != collection.end()) {
+            return iter->second;
+        }
+        return boost::none;
+    }
 };
 
 #endif // MUSICMANAGEMENT_H
