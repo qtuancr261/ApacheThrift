@@ -11,16 +11,12 @@ int main(int /*argc*/, char* /*argv*/ [])
 {
     MusicManagement manager;
     opt_string resultData = manager.findLastDataOfEvent("t_event_1");
+    cout << BOOST_CURRENT_FUNCTION << endl;
     if (resultData) {
         cout << "Lasted data received " << resultData.get() << endl;
     }
 
     std::map<string, int> eventCollections;
     boost::optional<int> id = manager.findLastDataOfEvent(eventCollections, "Gt");
-    if (id) {
-        cout << "Lasted id: " << id.get() << endl;
-    } else {
-        cout << "ID not found " << endl;
-    }
     return 0;
 }
