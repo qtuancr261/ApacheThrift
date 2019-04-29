@@ -12,13 +12,12 @@ using CollectionData = std::pair<std::string, std::string>;
 using opt_string = boost::optional<std::string>;
 using bufferWrapper = boost::tuple<uint8_t*, size_t>;
 using boost::cref; // const reference by boost lib
-class CollectionManagement {
+class MusicManagement {
 private:
     Collection eventCollection;
 
 public:
-    CollectionManagement();
-    opt_string findLastDataOfEvent(const std::string& eventName) const;
+    MusicManagement();
 
     template <typename T>
     boost::optional<typename T::mapped_type> findLastDataOfEvent(const T& collection, const typename T::key_type& eventName) const

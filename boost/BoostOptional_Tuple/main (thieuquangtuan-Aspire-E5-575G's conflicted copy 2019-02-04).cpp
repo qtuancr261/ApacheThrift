@@ -9,14 +9,12 @@ using std::endl;
 using std::string;
 int main(int /*argc*/, char* /*argv*/ [])
 {
-    CollectionManagement manager;
-    opt_string resultData = manager.findLastDataOfEvent("t_event_1");
-    cout << BOOST_CURRENT_FUNCTION << endl;
-    if (resultData) {
-        cout << "Lasted data received " << resultData.get() << endl;
-    }
-
+    cout << BOOST_COMPILER << " " << BOOST_CURRENT_FUNCTION << endl;
+    MusicManagement manager;
     std::map<string, int> eventCollections;
     boost::optional<int> id = manager.findLastDataOfEvent(eventCollections, "Gt");
+    if (id) {
+        cout << "Last data from event " << id.get() << endl;
+    }
     return 0;
 }
