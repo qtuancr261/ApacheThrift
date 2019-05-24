@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>MyService.h</itemPath>
+      <itemPath>myserverapplication.h</itemPath>
+      <itemPath>myservicehandler.h</itemPath>
+      <itemPath>thrift_file_constants.h</itemPath>
+      <itemPath>thrift_file_types.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>MyService.cpp</itemPath>
+      <itemPath>main.cpp</itemPath>
+      <itemPath>myserverapplication.cpp</itemPath>
+      <itemPath>myservicehandler.cpp</itemPath>
+      <itemPath>thrift_file_constants.cpp</itemPath>
+      <itemPath>thrift_file_types.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>/home/tuantq3/NetBeansProjects/PocoClientApp</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>/usr/local/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs thrift`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs thrift-nb`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs libevent`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs poco_foundation`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs poco_util`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="MyService.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MyService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="myserverapplication.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="myserverapplication.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="myservicehandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="myservicehandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="thrift_file_constants.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift_file_constants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="thrift_file_types.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift_file_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="MyService.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MyService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="myserverapplication.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="myserverapplication.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="myservicehandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="myservicehandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="thrift_file_constants.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift_file_constants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="thrift_file_types.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift_file_types.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
